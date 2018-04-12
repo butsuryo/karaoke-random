@@ -14,3 +14,12 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/', 'IndexController@show');
+Route::post('/', 'IndexController@show');
+
+//Route::get('/start', 'LotteryController@start');
+Route::post('/start', 'LotteryController@start');
+
+Route::get('/lottery/{cnt}', 'LotteryController@lottery');
+Route::post('/lottery/{cnt}', 'LotteryController@lottery');

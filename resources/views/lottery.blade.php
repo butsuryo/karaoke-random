@@ -77,7 +77,7 @@
 
             <div class="content">
                 <div class="title m-b-md">Lottery</div>
-                <p><b>title: {{ $song }}</b></p>
+                <p>曲タイトル:<b> {{ $song }}</b></p>
                 <p>全：{{ $all_cnt }} 曲</p>
                 <p>今: {{ $cnt }} 曲目</p>
                 <p>残り： {{ $remain_cnt }} 曲</p>
@@ -85,8 +85,8 @@
                 {{ Form::open(['url' => "lottery/$cnt"]) }}
 
 
-                {{ Form::submit('次へ', ['name' => 'next']) }}
-                {{ Form::submit('スキップ', ['name' => 'skip']) }}
+                {{ Form::submit('次の曲へ', ['name' => 'next']) }}
+                {{ Form::submit('今はスキップ', ['name' => 'skip']) }}
 
                 {{ Form::close() }}
             </div>
