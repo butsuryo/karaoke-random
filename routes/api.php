@@ -18,3 +18,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('/info', 'IndexController@getInfo');
+Route::get('/allsong', 'LotteryController@getAllSong');
+Route::get('/deleteFile/{filePath}', 'LotteryController@deleteFile');

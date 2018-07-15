@@ -2,10 +2,26 @@ $info = [];
 
 $(function() {
 
-    var deferred = getInfo();
-    deferred.done(function(){
-        changeText();
-    });
+    // var deferred = getInfo('api/info');
+    // deferred.done(function(){
+    //     changeText();
+    // });
+
+    // 再開確認
+    if ($('input:hidden[name="incomplete_file_name"]').val() != null && $('input:hidden[name="incomplete_file_name"]').val() != '') {
+        if (confirm('途中終了したデータがあります。再開しますか？')) {
+            console.log($('input:hidden[name="incomplete_file_name"]').val() );
+            return $('form[id="restartForm"]').submit();
+        } else {
+            // ファイル削除 debug
+            console.log($('input:hidden[name="incomplete_file_name"]').val() );
+            // var deferred = getInfo('api/deleteFile/' + $('input:hidden[name="incomplete_file_name"]').val());
+            // deferred.done(function(){
+            //     return false;
+            // });
+
+        }
+    }
 
     // 「全てにチェック」
     $('input[name="all"]').change(function() {
@@ -14,51 +30,50 @@ $(function() {
         } else {
             $('input[name="selectcheck[]"]').prop('checked', false);
         }
-        changeText();
+        //changeText();
     });
 
     // それぞれのチェック
     $('input[name="selectcheck[]"]').change(function(){
         $isAllSelected = ($('[name="selectcheck[]"]:not(:checked)').length == 0);
         $('input[name="all"]').prop('checked', $isAllSelected);
-        changeText();
+        //changeText();
     });
 });
 
 
-function changeText() {
+// function changeText() {
+//
+//     $count = 0;
+//     $time = 0;
+//
+//     $('[name="selectcheck[]"]:checked').each(function(i, elem) {
+//         $selectedVal = $(elem).val();
+//         $keys = ['sl', 'op', '2nd', '3rd', 'anime', 'wt', 'everyone'];
+//
+//         $.each($keys, function(i, $key) {
+//             if ($selectedVal == $key) {
+//                 $count += $info[$key + '_cnt'];
+//             }
+//         });
+//     });
+//
+//     $minutes = 90;
+//     $currentTime = new Date();
+//     $endtime = formatDate(new Date($currentTime.setMinutes($currentTime.getMinutes() + $minutes)), 'hh:mm');
+//     $message = '単純再生時間は' + $minutes + '分です。(合計' + $count + '曲)'
+//         + "<br>" + '今から開始すると、終了は' + $endtime + 'ごろになります。';
+//     $('#message').html($message);
+// }
 
-    $count = 0;
-    $time = 0;
-
-    $('[name="selectcheck[]"]:checked').each(function(i, elem) {
-        $selectedVal = $(elem).val();
-        $keys = ['sl', 'op', '2nd', '3rd', 'anime', 'everyone'];
-
-        $.each($keys, function(i, $key) {
-            if ($selectedVal == $key) {
-                $count += $info[$key + '_cnt'];
-                console.log($key + $count);
-            }
-        });
-    });
-
-    $minutes = 90;
-    $currentTime = new Date();
-    $endtime = formatDate(new Date($currentTime.setMinutes($currentTime.getMinutes() + $minutes)), 'hh:mm');
-    $message = '単純再生時間は' + $minutes + '分です。(合計' + $count + '曲)'
-        + "<br>" + '今から開始すると、終了は' + $endtime + 'ごろになります。';
-    $('#message').html($message);
-}
-
-function getInfo() {
+function getInfo(url) {
 
     var deferred = new $.Deferred();
 
     $.ajax({
         type: 'get',
         datatype: 'json',
-        url: 'api/info'
+        url: url
     })
     .done(function(data){ //ajaxの通信に成功した場合
         $info = data;

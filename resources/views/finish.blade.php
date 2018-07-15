@@ -8,6 +8,21 @@
 
         <!-- Styles -->
         <style>
+            .square_btn{
+                display: inline-block;
+                padding: 0.5em 1em;
+                text-decoration: none;
+                background: #668ad8;
+                color: #FFF;
+                border-radius: 4px;
+                box-shadow: 0px 0px 0px 5px #668ad8;
+                border: dashed 1px #FFF;
+            }
+
+            .square_btn:hover{
+                border: dotted 1px #FFF;
+            }
+
             html, body {
                 background-color: #fff;
                 color: #636b6f;
@@ -17,9 +32,6 @@
                 margin: 0;
             }
 
-            .full-height {
-                height: 100vh;
-            }
 
             .flex-center {
                 align-items: center;
@@ -76,36 +88,24 @@
             @endif
 
             <div class="content">
-                <div class="title m-b-md">Lottery</div>
-
-                <p>曲タイトル:<b> {{ $is_mask ? '●●●●●●' : $song->getTitle() }}</b></p>
-                <p>選曲番号(DAM):<b> {{ $song->getDamNumber() }}</b></p>
-                <p>選曲番号(JOY):<b> {{ $song->getJoysoundNumber() }}</b></p>
-                <p>全：{{ $all_cnt }} 曲</p>
-                <p>今: {{ $cnt }} 曲目</p>
-                <p>残り： {{ $remain_cnt }} 曲</p>
-                @if ($remain_cnt > 0)
-                    <p>残り時間： {{ $remain_label }} （終了予定時間：{{ $finish_time }}）</p>
-                @endif
-
-                {{ Form::open(['url' => "lottery/$cnt"]) }}
-
-
-                {{ Form::hidden('all_count', $all_cnt) }}
-                {{ Form::hidden('file_name', $file_name) }}
-                {{--{{ Form::hidden('start_time', $start_time) }}--}}
-
-                @if ($remain_cnt > 0)
-                    {{ Form::submit('次の曲へ', ['name' => 'next']) }}
-                    {{ Form::submit('今はスキップ', ['name' => 'skip']) }}
-                @else
-                    {{ Form::submit('終了', ['name' => 'finish']) }}
-                @endif
-
+                <div class="title m-b-md">Finish</div>
+                <p>終了しました。</p>
+                <table>
+                    @foreach($songs as $index => $song)
+                        <tr>
+                            <td>{{ $index + 1 }}曲目</td>
+                            <td>{{ $song->getTitle()}}</td>
+                        </tr>
+                    @endforeach
+                </table>
+                <br>
+                {{ $time }} かかりました。
+                <br><br><br>
+                {{ Form::open(['url' => '/']) }}
+                {{ Form::submit('Topへ戻る', ['class' => 'square_btn']) }}
                 {{ Form::close() }}
+
             </div>
         </div>
-
-
     </body>
 </html>

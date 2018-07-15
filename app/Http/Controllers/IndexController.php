@@ -8,11 +8,24 @@ use Log;
 
 class IndexController extends Controller
 {
+    public const DIR = 'record';
+    public const FILE_SUFFIX_IMCOMPLETE = 'incomplete';
+    public const FILE_SUFFIX_START = 'start';
+    public const FILE_SUFFIX_FINISH = 'finish';
+    public const LINE_SEPARATOR = "\r\n";
+
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function show() {
-        return view('index');
+
+        // 作業用ディレクトリの作成
+        if (!file_exists(IndexController::DIR)) {
+            mkdir(IndexController::DIR);
+        }
+
+        $data['file_name'] = $this->getIncompleteFile();
+        return view('index', $data);
     }
 
     public function getInfo(Request $request)
@@ -26,7 +39,20 @@ class IndexController extends Controller
         $response["3rd_cnt"] = 31;
         $response["anime_cnt"] = 10;
         $response["everyone_cnt"] = 4;
+        $response["wt_cnt"] = 2;
 
         return Response::json($response);
+    }
+
+    public function getIncompleteFile() : ?string
+    {
+        $dir = self::DIR;
+        $suffix = self::FILE_SUFFIX_IMCOMPLETE;
+        foreach(glob("$dir/*$suffix*") as $file){
+            if (is_file($file)){
+                return $file;   // TODO フルパス？
+            }
+        }
+        return null;
     }
 }

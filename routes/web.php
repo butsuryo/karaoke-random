@@ -18,8 +18,13 @@ Route::get('/', function () {
 Route::get('/', 'IndexController@show');
 Route::post('/', 'IndexController@show');
 
-//Route::get('/start', 'LotteryController@start');
+Route::get('/start', 'LotteryController@start');
 Route::post('/start', 'LotteryController@start');
+
+
+Route::post('/restart', 'LotteryController@restart');
 
 Route::get('/lottery/{cnt}', 'LotteryController@lottery');
 Route::post('/lottery/{cnt}', 'LotteryController@lottery');
+
+Route::get('/finish/{fileTimestamp}', 'FinishController@show');

@@ -174,8 +174,11 @@
             <div class="content">
                 <div class="title m-b-md">karaoke-random</div>
 
-                {{-- Form::open(['url' => 'start']) --}}
-                {{ Form::open(['url' => '']) }}
+                {{ Form::open(['url' => 'restart', 'id' => 'restartForm']) }}
+                    {{ Form::hidden('incomplete_file_name', $file_name) }}
+                {{ Form::close() }}
+
+                {{ Form::open(['url' => 'start', 'id' => 'startForm']) }}
                 <div class="boxgroup">
                     <span class="box-title">抽選対象曲</span>
                     <p>
@@ -199,8 +202,12 @@
                         {{ Form::label('selectcheck_l5', 'ANIMATION PROJECT') }}
                     </p>
                     <p>
+                        {{ Form::checkbox('selectcheck[]', 'wt', true, ['class' => 'checkA']) }}
+                        {{ Form::label('selectcheck_l6', 'WORLD TRE@TURE') }}
+                    </p>
+                    <p>
                         {{ Form::checkbox('selectcheck[]', 'everyone', true, ['class' => 'checkA']) }}
-                        {{ Form::label('selectcheck_l6', '全体曲') }}
+                        {{ Form::label('selectcheck_l7', '全体曲') }}
                     </p>
 
                     <hr>
@@ -214,11 +221,11 @@
                 <div class="boxgroup">
                     <span class="box-title">曲情報の表示・非表示</span>
                     <p>
-                        {{ Form::radio('selectradio[]', 1, true) }}
+                        {{ Form::radio('selectradio[]', 1, false) }}
                         {{ Form::label('selectradio_l1', '表示する') }}
                     </p>
                     <p>
-                        {{ Form::radio('selectradio[]', 2, false) }}
+                        {{ Form::radio('selectradio[]', 2, true) }}
                         {{ Form::label('selectradio_l2', '隠す（機種番号のみ表示されます）') }}
                     </p>
                 </div>
